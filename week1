@@ -1,8 +1,9 @@
-# 问题：
+问题：
+======
     1针对以上的数据，将label为1的作为P类，把label为0的作为N类，阈值设为0.05时，计算混淆矩阵，计算TPR，FPR，Precision，Recall，F1-score，Accuracy
     2绘制ROC曲线，计算AUC
     
-##根据问题导入所需库中的包，计算和画图
+#根据问题导入所需库中的包，计算和画图
 from sklearn import metrics
 from sklearn.metrics import confusion_matrix, accuracy_score, precision_score, recall_score, f1_score
 import csv
