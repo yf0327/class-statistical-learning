@@ -28,7 +28,46 @@ y_pred = score.copy()
 y_pred[y_pred > threshold] = 1
 y_pred[y_pred < threshold] = 0
 
-#confusion_matrix(y_true, y_pred, labels=None, sample_weight=None):通过计算混淆矩阵来评估分类的准确性 返回混淆矩阵
-hunxiao = confusion_matrix(label, y_pred)
-print('Confusion Matrix: \n',hunxiao)
+#通过计算混淆矩阵来评估分类的准确性 返回混淆矩阵confusion_matrix(y_true, y_pred, labels=None, sample_weight=None)
+cm = confusion_matrix(label, predict)
+cm_display = ConfusionMatrixDisplay(confusion_matrix=cm,display_labels=classes).plot()
+print('Confusion Matrix: \n',cm)
+fpr, tpr, thresholds = metrics.roc_curve(label, score)
+#计算TPR，FPR，Precision，Recall，F1-score，Accuracy
+#查准率或者精度； precision(查准率)=TP/(TP+FP)precision_score(y_true, y_pred, labels=None, pos_label=1, average='binary',) 
+#查全率 ；recall(查全率)=TP/(TP+FN)recall_score(y_true, y_pred, labels=None, pos_label=1, average='binary', sample_weight=None)
+TPR=cm[0][0]/(cm[0][0]+cm[1][0])
+FPR=cm[0][1]/(cm[0][1]+cm[1][1])
+print('TruePositiveRate: ', TPR)
+print('FalsePositiveRate: ', FPR)
+accuracy = accuracy_score(label, predict)
+print('Accuracy: ', accuracy)
+precision = precision_score(label, predict)
+print('Precision: ', precision)
+recall = recall_score(label, predict)
+print('Recall: ', recall)
+f1 = f1_score(label, predict)
+print('F1 score: ', f1)
 
+
+plt.plot(fpr,tpr)
+plt.show()
+
+
+
+plt.figure()
+roc_auc = auc(fpr, tpr)
+plt.plot(
+    fpr,
+    tpr,
+    color="darkorange",
+    label="ROC curve (area = %0.2f)" % roc_auc,
+)
+plt.plot([0, 1], [0, 1], color="navy", linestyle="--")
+plt.xlim([0.0, 1.0])
+plt.ylim([0.0, 1.05])
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("Receiver operating characteristic example")
+plt.legend(loc="lower right")
+plt.show()
